@@ -1,9 +1,5 @@
 from typing import TypedDict
 
-class CharacterCount(TypedDict):
-    char: str
-    num: int
-
 # Count words from book's text
 def count_words(book_str: str) -> int:
     word_list = book_str.split()
@@ -22,11 +18,28 @@ def count_each_char(book_str: str) -> dict[str, int]:
 
     return count_per_char
 
-# .sort() helper function
+## Transform count_each_char's dictionary into a sorted list of tuples: (char, count)
+## helper function for sorted()
+def sort_on(char_count_pair: tuple[str, int]) -> int:
+    return char_count_pair[1]
+
+def chars_dict_to_sorted_list(char_count_dict: dict[str, int]) -> list[tuple[str, int]]:
+    char_count_tuple_list: list[tuple[str, int]] = []
+
+    for char, count in char_count_dict.items():
+        char_count_tuple_list.append((char, count))
+
+    return sorted(char_count_tuple_list, reverse=True, key=sort_on)
+
+# Deprecated previous approach for sorting: transform count_each_char's dictionary into a sorted list of dictionaries
+class CharacterCount(TypedDict):
+    char: str
+    num: int
+
+# helper function for .sort()
 def get_num(e: CharacterCount) -> int:
     return e["num"]
 
-# Transform count_each_char's dictionary into a sorted list of dictionaries
 def format_char_count(char_count_dict: dict[str, int]) -> list[CharacterCount]:
     char_count_list: list[CharacterCount] = []
 

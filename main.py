@@ -1,4 +1,4 @@
-from stats import count_words, count_each_char, format_char_count, CharacterCount
+from stats import count_words, count_each_char, chars_dict_to_sorted_list
 import sys
 
 def main() -> None:
@@ -12,7 +12,7 @@ def main() -> None:
     text = get_book_text(book_path)
     word_count = count_words(text)
     char_count = count_each_char(text)
-    formatted_char_count = format_char_count(char_count)
+    formatted_char_count = chars_dict_to_sorted_list(char_count)
     
     print_report(book_path, word_count, formatted_char_count)
 
@@ -22,15 +22,15 @@ def get_book_text(path: str) -> str:
         return f.read()
 
 # Print report in a pretty way
-def print_report(book_path: str, word_count: int, formatted_char_count: list[CharacterCount]) -> None:
+def print_report(book_path: str, word_count: int, formatted_char_count: list[tuple[str, int]]) -> None:
     print("============BOOKBOT============")
     print(f"Analyzing book found at {book_path}...")
     print("----------- Word Count ----------")
     print(f"Found {word_count} total words")
     print("--------- Character Count -------")
     for pair in formatted_char_count:
-        if pair["char"].isalpha():
-            print(f"{pair['char']}: {pair['num']}")
+        if pair[0].isalpha():
+            print(f"{pair[0]}: {pair[1]}")
     print("============= END ===============")
 
 main()
